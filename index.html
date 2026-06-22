@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#e0e5ec">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>SoftTune - Free Music Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <span class="logo-text">SoftTune</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Menu</span>
+                    <ul class="nav-list">
+                        <li class="nav-item active" data-page="home">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-home"></i></div>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-page="search">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-search"></i></div>
+                                <span>Search</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-page="library">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-book"></i></div>
+                                <span>Library</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-page="favorites">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-heart"></i></div>
+                                <span>Favorites</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-page="recent">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-clock-rotate-left"></i></div>
+                                <span>Recently Played</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Your Music</span>
+                    <ul class="nav-list">
+                        <li class="nav-item" data-page="local">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-folder-open"></i></div>
+                                <span>Local Files</span>
+                                <span class="nav-badge" id="localBadge">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-page="downloads">
+                            <a href="#" class="nav-link">
+                                <div class="nav-icon"><i class="fas fa-download"></i></div>
+                                <span>Downloads</span>
+                                <span class="nav-badge" id="downloadsBadge">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle-wrapper">
+                    <span class="theme-label">Dark Mode</span>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <div class="toggle-track">
+                            <div class="toggle-thumb"><i class="fas fa-moon"></i></div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Mini Player Preview -->
+                <div class="mini-player-preview" id="miniPlayerPreview">
+                    <div class="mini-cover">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop" alt="Cover" id="miniCover">
+                        <div class="mini-play-indicator" id="miniPlayIndicator">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="mini-info">
+                        <p class="mini-title" id="miniTitle">Select a song</p>
+                        <p class="mini-artist" id="miniArtist">--</p>
+                    </div>
+                    <div class="mini-controls">
+                        <button class="mini-play-btn" id="miniPlayBtn"><i class="fas fa-play" id="miniPlayIcon"></i></button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="header-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search songs, artists..." id="headerSearch">
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" id="scanLocalBtn" title="Scan Local Music">
+                        <i class="fas fa-folder-music"></i>
+                    </button>
+                    <button class="header-btn" id="headerThemeBtn" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="pages-container">
+                <!-- HOME PAGE -->
+                <section class="page active" id="homePage">
+                    <div class="page-header">
+                        <h1 class="page-title">Good Morning</h1>
+                        <p class="page-subtitle">Your personal music sanctuary</p>
+                    </div>
+
+                    <!-- Daily Mix Cards -->
+                    <div class="mix-section">
+                        <h2 class="section-title">Made For You</h2>
+                        <div class="mix-grid" id="mixGrid">
+                            <div class="mix-card" data-mix="favorites">
+                                <div class="mix-card-inner">
+                                    <div class="mix-icon"><i class="fas fa-heart"></i></div>
+                                    <div class="mix-info">
+                                        <h3>Your Favorites</h3>
+                                        <p id="favoritesMixCount">0 songs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mix-card" data-mix="chill">
+                                <div class="mix-card-inner">
+                                    <div class="mix-icon" style="background: linear-gradient(135deg, #a78bfa, #c084fc);"><i class="fas fa-mug-hot"></i></div>
+                                    <div class="mix-info">
+                                        <h3>Chill Mix</h3>
+                                        <p>Relaxing vibes</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mix-card" data-mix="pop">
+                                <div class="mix-card-inner">
+                                    <div class="mix-icon" style="background: linear-gradient(135deg, #f472b6, #fb7185);"><i class="fas fa-bolt"></i></div>
+                                    <div class="mix-info">
+                                        <h3>Pop Mix</h3>
+                                        <p>Top hits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Player Dashboard -->
+                    <div class="player-dashboard">
+                        <div class="player-card">
+                            <div class="album-artwork-container">
+                                <div class="album-artwork" id="albumArtwork">
+                                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop" alt="Album Artwork" id="albumCover">
+                                    <div class="album-overlay">
+                                        <div class="playing-indicator">
+                                            <span></span><span></span><span></span><span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="artwork-shadow"></div>
+                            </div>
+                            <div class="track-info">
+                                <h2 class="track-title" id="trackTitle">Welcome to SoftTune</h2>
+                                <p class="track-artist" id="trackArtist">Select a song to begin</p>
+                                <span class="track-category" id="trackCategory">--</span>
+                            </div>
+                            <div class="progress-section">
+                                <div class="progress-bar-container" id="progressContainer">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="progressFill">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="time-display">
+                                    <span class="current-time" id="currentTime">0:00</span>
+                                    <span class="total-time" id="totalTime">0:00</span>
+                                </div>
+                            </div>
+                            <div class="playback-controls">
+                                <button class="control-btn shuffle-btn" id="shuffleBtn" aria-label="Shuffle"><i class="fas fa-shuffle"></i></button>
+                                <button class="control-btn prev-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-backward-step"></i></button>
+                                <button class="control-btn play-btn" id="playBtn" aria-label="Play/Pause">
+                                    <i class="fas fa-play" id="playIcon"></i>
+                                </button>
+                                <button class="control-btn next-btn" id="nextBtn" aria-label="Next"><i class="fas fa-forward-step"></i></button>
+                                <button class="control-btn repeat-btn" id="repeatBtn" aria-label="Repeat"><i class="fas fa-repeat"></i></button>
+                            </div>
+                            <div class="volume-section">
+                                <button class="volume-btn" id="muteBtn" aria-label="Mute"><i class="fas fa-volume-high" id="volumeIcon"></i></button>
+                                <div class="volume-slider-container" id="volumeSliderContainer">
+                                    <div class="volume-slider" id="volumeSlider">
+                                        <div class="volume-fill" id="volumeFill">
+                                            <div class="volume-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="volume-percentage" id="volumePercentage">80%</span>
+                            </div>
+                            <div class="track-actions">
+                                <button class="action-btn like-btn" id="likeBtn" aria-label="Like"><i class="far fa-heart"></i></button>
+                                <button class="action-btn share-btn" id="shareBtn" aria-label="Share"><i class="fas fa-share-nodes"></i></button>
+                                <button class="action-btn download-btn" id="downloadBtn" aria-label="Download"><i class="fas fa-download"></i></button>
+                                <button class="action-btn queue-btn" id="queueBtn" aria-label="Queue"><i class="fas fa-list"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Playlist Section -->
+                    <div class="playlist-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Your Playlist</h2>
+                            <div class="playlist-filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="pop">Pop</button>
+                                <button class="filter-btn" data-filter="rock">Rock</button>
+                                <button class="filter-btn" data-filter="electronic">Electronic</button>
+                                <button class="filter-btn" data-filter="jazz">Jazz</button>
+                                <button class="filter-btn" data-filter="local">Local</button>
+                            </div>
+                        </div>
+                        <div class="playlist-container" id="playlistContainer"></div>
+                    </div>
+                </section>
+
+                <!-- SEARCH PAGE -->
+                <section class="page" id="searchPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Discover Music</h1>
+                        <p class="page-subtitle">Search, stream, and download free music</p>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search for songs, artists, albums..." id="searchInput">
+                            <button class="search-btn" id="searchBtn"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="search-filters">
+                            <button class="search-filter active" data-type="all">All</button>
+                            <button class="search-filter" data-type="tracks">Tracks</button>
+                            <button class="search-filter" data-type="artists">Artists</button>
+                            <button class="search-filter" data-type="albums">Albums</button>
+                        </div>
+                    </div>
+                    <div class="search-results" id="searchResults">
+                        <div class="search-placeholder">
+                            <div class="search-placeholder-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <p>Search for music to get started</p>
+                            <span>Try searching for your favorite artist or song</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LIBRARY PAGE -->
+                <section class="page" id="libraryPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Library</h1>
+                        <p class="page-subtitle">All your music in one place</p>
+                    </div>
+                    <div class="library-categories">
+                        <div class="library-category" data-category="liked">
+                            <div class="category-icon"><i class="fas fa-heart"></i></div>
+                            <div class="category-info">
+                                <h3>Liked Songs</h3>
+                                <p id="likedCount">0 songs</p>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="library-category" data-category="artists">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #60a5fa, #3b82f6);"><i class="fas fa-user"></i></div>
+                            <div class="category-info">
+                                <h3>Artists</h3>
+                                <p id="artistsCount">0 artists</p>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="library-category" data-category="albums">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #a78bfa, #8b5cf6);"><i class="fas fa-compact-disc"></i></div>
+                            <div class="category-info">
+                                <h3>Albums</h3>
+                                <p id="albumsCount">0 albums</p>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="library-category" data-category="playlists">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #f472b6, #ec4899);"><i class="fas fa-list-music"></i></div>
+                            <div class="category-info">
+                                <h3>Playlists</h3>
+                                <p>Your custom playlists</p>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FAVORITES PAGE -->
+                <section class="page" id="favoritesPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Your Favorites</h1>
+                        <p class="page-subtitle">Songs you love</p>
+                    </div>
+                    <div class="favorites-container" id="favoritesContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-heart"></i></div>
+                            <p>No favorites yet</p>
+                            <span>Like songs to add them here</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RECENTLY PLAYED PAGE -->
+                <section class="page" id="recentPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Recently Played</h1>
+                        <p class="page-subtitle">Your listening history</p>
+                    </div>
+                    <div class="recent-container" id="recentContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-clock-rotate-left"></i></div>
+                            <p>No recently played songs</p>
+                            <span>Start listening to build your history</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LOCAL FILES PAGE -->
+                <section class="page" id="localPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Local Files</h1>
+                        <p class="page-subtitle">Music from your device</p>
+                    </div>
+                    <div class="local-actions">
+                        <button class="scan-btn" id="scanLocalFilesBtn">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Scan Music Folder</span>
+                        </button>
+                        <button class="scan-btn" id="pickFilesBtn">
+                            <i class="fas fa-file-audio"></i>
+                            <span>Select Files</span>
+                        </button>
+                    </div>
+                    <div class="local-container" id="localContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-folder-music"></i></div>
+                            <p>No local music found</p>
+                            <span>Scan your device or select files to add music</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DOWNLOADS PAGE -->
+                <section class="page" id="downloadsPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Downloads</h1>
+                        <p class="page-subtitle">Your downloaded music</p>
+                    </div>
+                    <div class="downloads-container" id="downloadsContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-download"></i></div>
+                            <p>No downloads yet</p>
+                            <span>Search and download music to listen offline</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Now Playing Bar (Mobile) -->
+        <div class="now-playing-bar" id="nowPlayingBar">
+            <div class="now-playing-info">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=60&h=60&fit=crop" alt="" id="nowPlayingBarCover">
+                <div class="now-playing-text">
+                    <p id="nowPlayingBarTitle">Select a song</p>
+                    <span id="nowPlayingBarArtist">--</span>
+                </div>
+            </div>
+            <div class="now-playing-controls">
+                <button class="now-playing-btn" id="barPrevBtn"><i class="fas fa-backward-step"></i></button>
+                <button class="now-playing-btn play" id="barPlayBtn"><i class="fas fa-play" id="barPlayIcon"></i></button>
+                <button class="now-playing-btn" id="barNextBtn"><i class="fas fa-forward-step"></i></button>
+            </div>
+        </div>
+
+        <!-- Audio Element -->
+        <audio id="audioPlayer" preload="metadata" crossorigin="anonymous"></audio>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage">Notification</span>
+        </div>
+
+        <!-- Share Modal -->
+        <div class="modal" id="shareModal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Share This Song</h3>
+                    <button class="modal-close" id="closeShareModal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="share-preview">
+                        <img src="" alt="" id="shareCover">
+                        <div class="share-info">
+                            <p class="share-title" id="shareTitle">Song Title</p>
+                            <p class="share-artist" id="shareArtist">Artist Name</p>
+                        </div>
+                    </div>
+                    <div class="share-link-box">
+                        <input type="text" readonly id="shareLinkInput" value="">
+                        <button class="copy-btn" id="copyLinkBtn"><i class="fas fa-copy"></i><span>Copy</span></button>
+                    </div>
+                    <div class="share-buttons">
+                        <button class="share-social-btn twitter" data-platform="twitter"><i class="fab fa-x-twitter"></i><span>Twitter</span></button>
+                        <button class="share-social-btn facebook" data-platform="facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></button>
+                        <button class="share-social-btn whatsapp" data-platform="whatsapp"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></button>
+                        <button class="share-social-btn telegram" data-platform="telegram"><i class="fab fa-telegram"></i><span>Telegram</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Modal -->
+        <div class="modal" id="downloadModal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Download Song</h3>
+                    <button class="modal-close" id="closeDownloadModal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="download-preview">
+                        <img src="" alt="" id="downloadCover">
+                        <div class="download-info">
+                            <p class="download-title" id="downloadTitle">Song Title</p>
+                            <p class="download-artist" id="downloadArtist">Artist Name</p>
+                        </div>
+                    </div>
+                    <div class="download-options">
+                        <div class="download-option">
+                            <div class="download-option-info">
+                                <span class="download-quality">High Quality (320kbps)</span>
+                                <span class="download-size">~8 MB</span>
+                            </div>
+                            <button class="download-action-btn" id="downloadHighBtn"><i class="fas fa-download"></i>Download</button>
+                        </div>
+                        <div class="download-option">
+                            <div class="download-option-info">
+                                <span class="download-quality">Standard Quality (128kbps)</span>
+                                <span class="download-size">~3 MB</span>
+                            </div>
+                            <button class="download-action-btn secondary" id="downloadStandardBtn"><i class="fas fa-download"></i>Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Queue Modal -->
+        <div class="modal" id="queueModal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content queue-modal-content">
+                <div class="modal-header">
+                    <h3>Play Queue</h3>
+                    <button class="modal-close" id="closeQueueModal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="queue-list" id="queueList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Screen Player (Mobile) -->
+        <div class="fullscreen-player" id="fullscreenPlayer">
+            <div class="fullscreen-bg" id="fullscreenBg"></div>
+            <div class="fullscreen-content">
+                <button class="fullscreen-close" id="fullscreenClose"><i class="fas fa-chevron-down"></i></button>
+                <div class="fullscreen-artwork">
+                    <img src="" alt="" id="fullscreenCover">
+                </div>
+                <div class="fullscreen-info">
+                    <h2 id="fullscreenTitle">Song Title</h2>
+                    <p id="fullscreenArtist">Artist Name</p>
+                </div>
+                <div class="fullscreen-progress">
+                    <div class="progress-bar-container" id="fullscreenProgressContainer">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="fullscreenProgressFill">
+                                <div class="progress-handle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="time-display">
+                        <span id="fullscreenCurrentTime">0:00</span>
+                        <span id="fullscreenTotalTime">0:00</span>
+                    </div>
+                </div>
+                <div class="fullscreen-controls">
+                    <button class="control-btn shuffle-btn" id="fsShuffleBtn"><i class="fas fa-shuffle"></i></button>
+                    <button class="control-btn prev-btn" id="fsPrevBtn"><i class="fas fa-backward-step"></i></button>
+                    <button class="control-btn play-btn" id="fsPlayBtn"><i class="fas fa-play" id="fsPlayIcon"></i></button>
+                    <button class="control-btn next-btn" id="fsNextBtn"><i class="fas fa-forward-step"></i></button>
+                    <button class="control-btn repeat-btn" id="fsRepeatBtn"><i class="fas fa-repeat"></i></button>
+                </div>
+                <div class="fullscreen-actions">
+                    <button class="action-btn like-btn" id="fsLikeBtn"><i class="far fa-heart"></i></button>
+                    <button class="action-btn" id="fsShareBtn"><i class="fas fa-share-nodes"></i></button>
+                    <button class="action-btn" id="fsDownloadBtn"><i class="fas fa-download"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
