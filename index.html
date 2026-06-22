@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#E8ECF1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SoftTune">
+  <meta name="description" content="Beautiful neumorphism music player. Free music streaming.">
+  <title>SoftTune - Free Music</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-wrap">
+
+    <!-- ===== SPLASH ===== -->
+    <div class="splash" id="splash">
+      <div class="splash-logo"><i class="fas fa-music"></i></div>
+      <h1>SoftTune</h1>
+      <p>Stream millions of songs and enjoy your world. Free music for everyone.</p>
+      <button class="splash-btn" id="splashBtn">Get Started</button>
+    </div>
+
+    <!-- ===== HOME ===== -->
+    <section class="page active" id="homePage">
+      <div class="top-bar">
+        <button class="ico-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <span class="tb-title">Good Morning</span>
+        <button class="ico-btn" id="scanBtn"><i class="fas fa-folder-open"></i></button>
+      </div>
+
+      <div class="sec-head"><h2>Made For You</h2></div>
+      <div class="mix-grid">
+        <div class="mix-card" data-mix="favorites">
+          <div class="mix-ico"><i class="fas fa-heart"></i></div>
+          <h3>Your Favorites</h3>
+          <p id="favMixCount">0 songs</p>
+        </div>
+        <div class="mix-card" data-mix="chill">
+          <div class="mix-ico"><i class="fas fa-mug-hot"></i></div>
+          <h3>Chill Mix</h3>
+          <p>Relaxing vibes</p>
+        </div>
+        <div class="mix-card" data-mix="pop">
+          <div class="mix-ico"><i class="fas fa-bolt"></i></div>
+          <h3>Pop Mix</h3>
+          <p>Top hits</p>
+        </div>
+        <div class="mix-card" data-mix="workout">
+          <div class="mix-ico"><i class="fas fa-dumbbell"></i></div>
+          <h3>Workout</h3>
+          <p>Energy boost</p>
+        </div>
+      </div>
+
+      <div class="sec-head">
+        <h2>Recently Played</h2>
+        <button class="see-all" data-nav="recent">See All</button>
+      </div>
+      <div class="h-scroll" id="recentlyPlayed"></div>
+
+      <div class="sec-head"><h2>Your Playlist</h2></div>
+      <div class="song-list" id="homePlaylist"></div>
+    </section>
+
+    <!-- ===== SEARCH ===== -->
+    <section class="page" id="searchPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Search</span>
+        <button class="ico-btn"><i class="fas fa-sliders"></i></button>
+      </div>
+
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search songs, artists, albums..." id="searchInput" autocomplete="off">
+        <button class="s-btn" id="searchGo"><i class="fas fa-arrow-right"></i></button>
+      </div>
+
+      <div class="sec-head"><h2>Trending Searches</h2></div>
+      <div class="trend-tags">
+        <button class="t-tag">The Weeknd</button>
+        <button class="t-tag">Dua Lipa</button>
+        <button class="t-tag">Coldplay</button>
+        <button class="t-tag">Justin Bieber</button>
+        <button class="t-tag">Taylor Swift</button>
+        <button class="t-tag">Ed Sheeran</button>
+      </div>
+
+      <div class="sec-head"><h2>Browse All</h2></div>
+      <div class="cat-grid">
+        <div class="cat-card" data-cat="playlists"><div class="cat-ico"><i class="fas fa-list-music"></i></div><span>Playlists</span></div>
+        <div class="cat-card" data-cat="artists"><div class="cat-ico"><i class="fas fa-user"></i></div><span>Artists</span></div>
+        <div class="cat-card" data-cat="albums"><div class="cat-ico"><i class="fas fa-compact-disc"></i></div><span>Albums</span></div>
+        <div class="cat-card" data-cat="genres"><div class="cat-ico"><i class="fas fa-guitar"></i></div><span>Genres</span></div>
+        <div class="cat-card" data-cat="podcasts"><div class="cat-ico"><i class="fas fa-microphone"></i></div><span>Podcasts</span></div>
+        <div class="cat-card" data-cat="radio"><div class="cat-ico"><i class="fas fa-radio"></i></div><span>Radio</span></div>
+      </div>
+
+      <div class="res-grid" id="searchResults" style="display:none;"></div>
+      <div class="empty" id="searchEmpty" style="padding:40px 20px;">
+        <div class="e-ico"><i class="fas fa-music"></i></div>
+        <h3>Search for music</h3>
+        <p>Try searching for your favorite artist or song</p>
+      </div>
+    </section>
+
+    <!-- ===== PLAYING NOW ===== -->
+    <section class="page" id="playingPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-down"></i></button>
+        <span class="tb-title">Playing Now</span>
+        <button class="ico-btn" id="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+      </div>
+
+      <div class="playing-now">
+        <div class="album-wrap">
+          <div class="album-art" id="albumArt">
+            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop" alt="Album" id="pCover">
+          </div>
+          <div class="album-shadow"></div>
+        </div>
+
+        <div class="track-info">
+          <h2 id="pTitle">Select a song</h2>
+          <p id="pArtist">--</p>
+        </div>
+
+        <div class="prog-wrap">
+          <div class="prog-bar" id="progBar">
+            <div class="prog-fill" id="progFill"></div>
+          </div>
+          <div class="time-disp">
+            <span id="curTime">0:00</span>
+            <span id="totTime">0:00</span>
+          </div>
+        </div>
+
+        <div class="p-controls">
+          <button class="p-btn s" id="shufBtn"><i class="fas fa-shuffle"></i></button>
+          <button class="p-btn m" id="prevBtn"><i class="fas fa-backward-step"></i></button>
+          <button class="p-btn l" id="playBtn"><i class="fas fa-play" id="playIcon"></i></button>
+          <button class="p-btn m" id="nextBtn"><i class="fas fa-forward-step"></i></button>
+          <button class="p-btn s" id="repBtn"><i class="fas fa-repeat"></i></button>
+        </div>
+
+        <div class="p-actions">
+          <button class="act-btn" id="likeBtn"><i class="far fa-heart"></i></button>
+          <button class="act-btn" id="shareBtn"><i class="fas fa-share-nodes"></i></button>
+          <button class="act-btn" id="dlBtn"><i class="fas fa-download"></i></button>
+          <button class="act-btn" id="eqPageBtn"><i class="fas fa-sliders"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PLAYLISTS ===== -->
+    <section class="page" id="playlistsPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Playlists</span>
+        <button class="ico-btn"><i class="fas fa-plus"></i></button>
+      </div>
+      <div class="pl-tabs">
+        <button class="pl-tab on" data-tab="my">My Playlists</button>
+        <button class="pl-tab" data-tab="liked">Liked Songs</button>
+        <button class="pl-tab" data-tab="albums">Albums</button>
+      </div>
+      <div class="song-list" id="plContent"></div>
+    </section>
+
+    <!-- ===== LIBRARY ===== -->
+    <section class="page" id="libraryPage">
+      <div class="top-bar">
+        <button class="ico-btn" id="libMenu"><i class="fas fa-bars"></i></button>
+        <span class="tb-title">Library</span>
+        <button class="ico-btn" id="libSearch"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="lib-grid">
+        <div class="lib-item" data-nav="favorites">
+          <div class="lib-ico"><i class="fas fa-heart"></i></div>
+          <div class="lib-info"><h3>Liked Songs</h3><p id="likedCount">0 songs</p></div>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="lib-item" data-nav="artists">
+          <div class="lib-ico"><i class="fas fa-user"></i></div>
+          <div class="lib-info"><h3>Artists</h3><p id="artistsCount">0 artists</p></div>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="lib-item" data-nav="albums">
+          <div class="lib-ico"><i class="fas fa-compact-disc"></i></div>
+          <div class="lib-info"><h3>Albums</h3><p id="albumsCount">0 albums</p></div>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="lib-item" data-nav="podcasts">
+          <div class="lib-ico"><i class="fas fa-microphone"></i></div>
+          <div class="lib-info"><h3>Podcasts</h3><p>0 episodes</p></div>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="lib-item" data-nav="downloads">
+          <div class="lib-ico"><i class="fas fa-download"></i></div>
+          <div class="lib-info"><h3>Downloaded</h3><p id="downloadsCount">0 songs</p></div>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS ===== -->
+    <section class="page" id="settingsPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Settings</span>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-list">
+          <div class="set-item">
+            <div class="set-ico" style="background:var(--grad);"><i class="fas fa-user" style="color:white;"></i></div>
+            <div class="set-info"><h4>Music Lover</h4><p>Free Plan</p></div>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-title">Playback</div>
+        <div class="set-list">
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-play"></i></div>
+            <div class="set-info"><h4>Auto Play</h4><p>Continue playing similar songs</p></div>
+            <div class="toggle on" data-t="autoplay"><div class="t-thumb"></div></div>
+          </div>
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-volume-high"></i></div>
+            <div class="set-info"><h4>Normalize Volume</h4><p>Keep volume consistent</p></div>
+            <div class="toggle" data-t="normalize"><div class="t-thumb"></div></div>
+          </div>
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-wave-square"></i></div>
+            <div class="set-info"><h4>Crossfade</h4><p>Smooth transitions</p></div>
+            <div class="toggle" data-t="crossfade"><div class="t-thumb"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-title">Notifications</div>
+        <div class="set-list">
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-bell"></i></div>
+            <div class="set-info"><h4>Push Notifications</h4><p>Get updates about new music</p></div>
+            <div class="toggle on" data-t="notif"><div class="t-thumb"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-title">Appearance</div>
+        <div class="set-list">
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-moon"></i></div>
+            <div class="set-info"><h4>Dark Mode</h4><p>Switch to dark theme</p></div>
+            <div class="toggle" id="darkToggle" data-t="dark"><div class="t-thumb"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-title">Support</div>
+        <div class="set-list">
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-circle-question"></i></div>
+            <div class="set-info"><h4>Help & Support</h4><p>Get help with SoftTune</p></div>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="set-item">
+            <div class="set-ico"><i class="fas fa-circle-info"></i></div>
+            <div class="set-info"><h4>About</h4><p>Version 1.0.0</p></div>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EQUALIZER ===== -->
+    <section class="page" id="equalizerPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Equalizer</span>
+        <button class="ico-btn" id="eqReset"><i class="fas fa-rotate-left"></i></button>
+      </div>
+
+      <div class="eq-vis" id="eqVis">
+        <div class="eq-bar" style="height:15%"></div>
+        <div class="eq-bar" style="height:35%"></div>
+        <div class="eq-bar" style="height:55%"></div>
+        <div class="eq-bar" style="height:40%"></div>
+        <div class="eq-bar" style="height:70%"></div>
+        <div class="eq-bar" style="height:50%"></div>
+        <div class="eq-bar" style="height:65%"></div>
+        <div class="eq-bar" style="height:30%"></div>
+        <div class="eq-bar" style="height:45%"></div>
+        <div class="eq-bar" style="height:60%"></div>
+        <div class="eq-bar" style="height:25%"></div>
+        <div class="eq-bar" style="height:75%"></div>
+      </div>
+
+      <div class="eq-sliders" id="eqSliders">
+        <div class="eq-group" data-f="60">
+          <span class="eq-val">0</span>
+          <div class="eq-track"><div class="eq-fill" style="height:50%"><div class="eq-thumb"></div></div></div>
+          <span class="eq-label">60Hz</span>
+        </div>
+        <div class="eq-group" data-f="230">
+          <span class="eq-val">0</span>
+          <div class="eq-track"><div class="eq-fill" style="height:50%"><div class="eq-thumb"></div></div></div>
+          <span class="eq-label">230Hz</span>
+        </div>
+        <div class="eq-group" data-f="910">
+          <span class="eq-val">0</span>
+          <div class="eq-track"><div class="eq-fill" style="height:50%"><div class="eq-thumb"></div></div></div>
+          <span class="eq-label">910Hz</span>
+        </div>
+        <div class="eq-group" data-f="3600">
+          <span class="eq-val">0</span>
+          <div class="eq-track"><div class="eq-fill" style="height:50%"><div class="eq-thumb"></div></div></div>
+          <span class="eq-label">3.6kHz</span>
+        </div>
+        <div class="eq-group" data-f="14000">
+          <span class="eq-val">0</span>
+          <div class="eq-track"><div class="eq-fill" style="height:50%"><div class="eq-thumb"></div></div></div>
+          <span class="eq-label">14kHz</span>
+        </div>
+      </div>
+
+      <div class="eq-presets">
+        <button class="eq-pre on" data-p="custom">Custom</button>
+        <button class="eq-pre" data-p="pop">Pop</button>
+        <button class="eq-pre" data-p="rock">Rock</button>
+        <button class="eq-pre" data-p="jazz">Jazz</button>
+        <button class="eq-pre" data-p="classical">Classical</button>
+        <button class="eq-pre" data-p="bass">Bass</button>
+      </div>
+    </section>
+
+    <!-- ===== FAVORITES ===== -->
+    <section class="page" id="favoritesPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Liked Songs</span>
+      </div>
+      <div class="song-list" id="favList"></div>
+      <div class="empty" id="favEmpty" style="display:none;">
+        <div class="e-ico"><i class="fas fa-heart"></i></div>
+        <h3>No favorites yet</h3>
+        <p>Like songs to add them here</p>
+      </div>
+    </section>
+
+    <!-- ===== LOCAL FILES ===== -->
+    <section class="page" id="localPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Local Files</span>
+      </div>
+      <button class="scan-btn" id="scanLocal"><i class="fas fa-folder-open"></i><span>Scan Music Folder</span></button>
+      <button class="scan-btn sec" id="pickFiles"><i class="fas fa-file-audio"></i><span>Select Files</span></button>
+      <div class="song-list" id="localList"></div>
+      <div class="empty" id="localEmpty">
+        <div class="e-ico"><i class="fas fa-folder-music"></i></div>
+        <h3>No local music found</h3>
+        <p>Scan your device or select files</p>
+      </div>
+    </section>
+
+    <!-- ===== DOWNLOADS ===== -->
+    <section class="page" id="downloadsPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Downloads</span>
+      </div>
+      <div class="song-list" id="dlList"></div>
+      <div class="empty" id="dlEmpty">
+        <div class="e-ico"><i class="fas fa-download"></i></div>
+        <h3>No downloads yet</h3>
+        <p>Search and download music to listen offline</p>
+      </div>
+    </section>
+
+    <!-- ===== ARTISTS ===== -->
+    <section class="page" id="artistsPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Artists</span>
+      </div>
+      <div class="song-list" id="artistsList"></div>
+    </section>
+
+    <!-- ===== ALBUMS ===== -->
+    <section class="page" id="albumsPage">
+      <div class="top-bar">
+        <button class="ico-btn back-btn"><i class="fas fa-chevron-left"></i></button>
+        <span class="tb-title">Albums</span>
+      </div>
+      <div class="res-grid" id="albumsGrid"></div>
+    </section>
+
+    <!-- ===== FLOATING MINI PLAYER (Non-blocking) ===== -->
+    <div class="mini-player" id="miniPlayer">
+      <button class="mini-close" id="miniClose"><i class="fas fa-xmark"></i></button>
+      <div class="mini-cover">
+        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop" alt="Cover" id="mCover">
+      </div>
+      <div class="mini-info">
+        <h4 id="mTitle">Select a song</h4>
+        <p id="mArtist">--</p>
+      </div>
+      <div class="mini-ctrls">
+        <button id="mPlay"><i class="fas fa-play" id="mPlayIcon"></i></button>
+        <button id="mNext"><i class="fas fa-forward-step"></i></button>
+      </div>
+    </div>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bot-nav" id="botNav">
+      <button class="nav-btn on" data-p="home"><i class="fas fa-home"></i><span>Home</span></button>
+      <button class="nav-btn" data-p="search"><i class="fas fa-search"></i><span>Search</span></button>
+      <button class="nav-btn" data-p="playlists"><i class="fas fa-list-music"></i><span>Playlists</span></button>
+      <button class="nav-btn" data-p="library"><i class="fas fa-book"></i><span>Library</span></button>
+      <button class="nav-btn" data-p="settings"><i class="fas fa-gear"></i><span>Settings</span></button>
+    </nav>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="tMsg">Notification</span></div>
+
+    <!-- ===== SHARE MODAL ===== -->
+    <div class="modal-bg" id="shareModal">
+      <div class="modal-box">
+        <div class="modal-head">
+          <h3>Share This Song</h3>
+          <button class="ico-btn" style="width:32px;height:32px;" id="closeShare"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="song-item" style="margin-bottom:14px;pointer-events:none;">
+          <div class="s-img"><img src="" alt="" id="sCover"></div>
+          <div class="s-info"><h4 id="sTitle">Song</h4><p id="sArtist">Artist</p></div>
+        </div>
+        <div class="search-box" style="margin:0 0 14px;padding:8px 12px;">
+          <input type="text" readonly id="sLink" style="font-size:12px;">
+          <button class="s-btn" id="copyLink"><i class="fas fa-copy"></i></button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+          <button class="scan-btn sec" style="margin:0;padding:10px;font-size:12px;"><i class="fab fa-x-twitter"></i> Twitter</button>
+          <button class="scan-btn sec" style="margin:0;padding:10px;font-size:12px;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          <button class="scan-btn sec" style="margin:0;padding:10px;font-size:12px;"><i class="fab fa-facebook-f"></i> Facebook</button>
+          <button class="scan-btn sec" style="margin:0;padding:10px;font-size:12px;"><i class="fab fa-telegram"></i> Telegram</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AUDIO ===== -->
+    <audio id="audio" preload="metadata" crossorigin="anonymous"></audio>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
