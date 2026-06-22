@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftTune - Premium Neumorphism Music Player</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>SoftTune</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active" data-page="home">
+                        <a href="#" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+                    </li>
+                    <li class="nav-item" data-page="search">
+                        <a href="#" class="nav-link"><i class="fas fa-search"></i><span>Search</span></a>
+                    </li>
+                    <li class="nav-item" data-page="favorites">
+                        <a href="#" class="nav-link"><i class="fas fa-heart"></i><span>Favorites</span></a>
+                    </li>
+                    <li class="nav-item" data-page="recent">
+                        <a href="#" class="nav-link"><i class="fas fa-clock-rotate-left"></i><span>Recently Played</span></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="theme-toggle-wrapper">
+                    <span class="theme-label">Theme</span>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="mini-player-preview" id="miniPlayerPreview">
+                    <div class="mini-cover">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop" alt="Cover" id="miniCover">
+                    </div>
+                    <div class="mini-info">
+                        <p class="mini-title" id="miniTitle">Select a song</p>
+                        <p class="mini-artist" id="miniArtist">--</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search songs, artists..." id="headerSearch">
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" id="headerThemeBtn" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="pages-container">
+                <!-- HOME PAGE -->
+                <section class="page active" id="homePage">
+                    <div class="page-header">
+                        <h1 class="page-title">Now Playing</h1>
+                        <p class="page-subtitle">Your personal music sanctuary</p>
+                    </div>
+                    <div class="player-dashboard">
+                        <div class="player-card">
+                            <div class="album-artwork-container">
+                                <div class="album-artwork" id="albumArtwork">
+                                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop" alt="Album Artwork" id="albumCover">
+                                    <div class="album-overlay">
+                                        <div class="playing-indicator">
+                                            <span></span><span></span><span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="artwork-shadow"></div>
+                            </div>
+                            <div class="track-info">
+                                <h2 class="track-title" id="trackTitle">Welcome to SoftTune</h2>
+                                <p class="track-artist" id="trackArtist">Select a song to begin</p>
+                                <span class="track-category" id="trackCategory">--</span>
+                            </div>
+                            <div class="progress-section">
+                                <div class="progress-bar-container" id="progressContainer">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="progressFill">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="time-display">
+                                    <span class="current-time" id="currentTime">0:00</span>
+                                    <span class="total-time" id="totalTime">0:00</span>
+                                </div>
+                            </div>
+                            <div class="playback-controls">
+                                <button class="control-btn shuffle-btn" id="shuffleBtn" aria-label="Shuffle"><i class="fas fa-shuffle"></i></button>
+                                <button class="control-btn prev-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-backward-step"></i></button>
+                                <button class="control-btn play-btn" id="playBtn" aria-label="Play/Pause"><i class="fas fa-play" id="playIcon"></i></button>
+                                <button class="control-btn next-btn" id="nextBtn" aria-label="Next"><i class="fas fa-forward-step"></i></button>
+                                <button class="control-btn repeat-btn" id="repeatBtn" aria-label="Repeat"><i class="fas fa-repeat"></i></button>
+                            </div>
+                            <div class="volume-section">
+                                <button class="volume-btn" id="muteBtn" aria-label="Mute"><i class="fas fa-volume-high" id="volumeIcon"></i></button>
+                                <div class="volume-slider-container">
+                                    <div class="volume-slider" id="volumeSlider">
+                                        <div class="volume-fill" id="volumeFill">
+                                            <div class="volume-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="volume-percentage" id="volumePercentage">80%</span>
+                            </div>
+                            <div class="track-actions">
+                                <button class="action-btn like-btn" id="likeBtn" aria-label="Like"><i class="far fa-heart"></i></button>
+                                <button class="action-btn share-btn" id="shareBtn" aria-label="Share"><i class="fas fa-share-nodes"></i></button>
+                                <button class="action-btn download-btn" id="downloadBtn" aria-label="Download"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="playlist-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Your Playlist</h2>
+                            <div class="playlist-filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="pop">Pop</button>
+                                <button class="filter-btn" data-filter="rock">Rock</button>
+                                <button class="filter-btn" data-filter="electronic">Electronic</button>
+                                <button class="filter-btn" data-filter="jazz">Jazz</button>
+                            </div>
+                        </div>
+                        <div class="playlist-container" id="playlistContainer"></div>
+                    </div>
+                </section>
+
+                <!-- SEARCH PAGE -->
+                <section class="page" id="searchPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Discover Music</h1>
+                        <p class="page-subtitle">Search, preview, and download free music</p>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search for songs, artists, albums..." id="searchInput">
+                            <button class="search-btn" id="searchBtn"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="search-filters">
+                            <button class="search-filter active" data-type="all">All</button>
+                            <button class="search-filter" data-type="tracks">Tracks</button>
+                            <button class="search-filter" data-type="artists">Artists</button>
+                            <button class="search-filter" data-type="albums">Albums</button>
+                        </div>
+                    </div>
+                    <div class="search-results" id="searchResults">
+                        <div class="search-placeholder">
+                            <i class="fas fa-music"></i>
+                            <p>Search for music to get started</p>
+                            <span>Try searching for your favorite artist or song</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FAVORITES PAGE -->
+                <section class="page" id="favoritesPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Your Favorites</h1>
+                        <p class="page-subtitle">Songs you love</p>
+                    </div>
+                    <div class="favorites-container" id="favoritesContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-heart"></i>
+                            <p>No favorites yet</p>
+                            <span>Like songs to add them here</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RECENTLY PLAYED PAGE -->
+                <section class="page" id="recentPage">
+                    <div class="page-header">
+                        <h1 class="page-title">Recently Played</h1>
+                        <p class="page-subtitle">Your listening history</p>
+                    </div>
+                    <div class="recent-container" id="recentContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-clock-rotate-left"></i>
+                            <p>No recently played songs</p>
+                            <span>Start listening to build your history</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <audio id="audioPlayer" preload="metadata"></audio>
+
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage">Notification</span>
+        </div>
+
+        <!-- Share Modal -->
+        <div class="modal" id="shareModal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Share This Song</h3>
+                    <button class="modal-close" id="closeShareModal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="share-preview">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop" alt="" id="shareCover">
+                        <div class="share-info">
+                            <p class="share-title" id="shareTitle">Song Title</p>
+                            <p class="share-artist" id="shareArtist">Artist Name</p>
+                        </div>
+                    </div>
+                    <div class="share-link-box">
+                        <input type="text" readonly id="shareLinkInput" value="">
+                        <button class="copy-btn" id="copyLinkBtn"><i class="fas fa-copy"></i><span>Copy</span></button>
+                    </div>
+                    <div class="share-buttons">
+                        <button class="share-social-btn twitter" data-platform="twitter"><i class="fab fa-x-twitter"></i><span>Twitter</span></button>
+                        <button class="share-social-btn facebook" data-platform="facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></button>
+                        <button class="share-social-btn whatsapp" data-platform="whatsapp"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></button>
+                        <button class="share-social-btn telegram" data-platform="telegram"><i class="fab fa-telegram"></i><span>Telegram</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Modal -->
+        <div class="modal" id="downloadModal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Download Song</h3>
+                    <button class="modal-close" id="closeDownloadModal"><i class="fas fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="download-preview">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop" alt="" id="downloadCover">
+                        <div class="download-info">
+                            <p class="download-title" id="downloadTitle">Song Title</p>
+                            <p class="download-artist" id="downloadArtist">Artist Name</p>
+                        </div>
+                    </div>
+                    <div class="download-options">
+                        <div class="download-option">
+                            <span class="download-quality">High Quality (320kbps)</span>
+                            <button class="download-action-btn" id="downloadHighBtn"><i class="fas fa-download"></i>Download</button>
+                        </div>
+                        <div class="download-option">
+                            <span class="download-quality">Standard Quality (128kbps)</span>
+                            <button class="download-action-btn" id="downloadStandardBtn"><i class="fas fa-download"></i>Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
