@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b0b10" />
+<title>Melody — Local Music Player</title>
+<meta name="description" content="A mobile-first local music player. Plays the music already stored on your phone, with playlists, favorites, background playback and lock-screen controls." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2300d4ff'/%3E%3Cpath d='M24 18v22a7 7 0 1 1-4-6.3V14l24-4v26a7 7 0 1 1-4-6.3V14z' fill='%230b0b10'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">♪</div>
+      <h1>Melody</h1>
+    </div>
+    <button id="pickFolderBtn" class="btn ghost" title="Pick music folder">📁 Folder</button>
+  </header>
+
+  <!-- Search -->
+  <div class="searchwrap">
+    <input id="searchInput" type="search" placeholder="Search songs, artists, albums, folders" />
+  </div>
+
+  <!-- Tabs -->
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="songs">Songs</button>
+    <button class="tab" data-tab="artists">Artists</button>
+    <button class="tab" data-tab="albums">Albums</button>
+    <button class="tab" data-tab="folders">Folders</button>
+    <button class="tab" data-tab="favorites">Favorites</button>
+    <button class="tab" data-tab="playlists">Playlists</button>
+    <button class="tab" data-tab="recent">Recent</button>
+  </nav>
+
+  <!-- Main list -->
+  <main id="view" class="view"></main>
+
+  <!-- Mini player -->
+  <div id="miniPlayer" class="mini hidden" role="button" aria-label="Open now playing">
+    <img id="miniCover" alt="" />
+    <div class="mini-meta">
+      <div id="miniTitle" class="mini-title">Nothing playing</div>
+      <div id="miniArtist" class="mini-artist">—</div>
+    </div>
+    <button id="miniPrev" class="iconbtn" aria-label="Previous">⏮</button>
+    <button id="miniPlay" class="iconbtn play" aria-label="Play/Pause">▶</button>
+    <button id="miniNext" class="iconbtn" aria-label="Next">⏭</button>
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottomnav">
+    <button class="navbtn active" data-tab="songs">🏠<span>Home</span></button>
+    <button class="navbtn" data-tab="favorites">❤<span>Favorites</span></button>
+    <button class="navbtn" data-tab="playlists">📃<span>Playlists</span></button>
+    <button class="navbtn" data-nav="now">🎵<span>Player</span></button>
+  </nav>
+</div>
+
+<!-- Full-screen player -->
+<div id="nowPlaying" class="nowplaying hidden" aria-hidden="true">
+  <button id="npClose" class="iconbtn close" aria-label="Close">✕</button>
+  <img id="npCover" alt="cover" />
+  <div class="np-meta">
+    <div id="npTitle" class="np-title">—</div>
+    <div id="npArtist" class="np-artist">—</div>
+  </div>
+  <div class="np-seek">
+    <span id="npElapsed">0:00</span>
+    <input id="npSeek" type="range" min="0" max="1000" value="0" />
+    <span id="npDuration">0:00</span>
+  </div>
+  <div class="np-controls">
+    <button id="npShuffle" class="iconbtn" aria-label="Shuffle">🔀</button>
+    <button id="npPrev" class="iconbtn" aria-label="Previous">⏮</button>
+    <button id="npPlay" class="iconbtn big play" aria-label="Play/Pause">▶</button>
+    <button id="npNext" class="iconbtn" aria-label="Next">⏭</button>
+    <button id="npRepeat" class="iconbtn" aria-label="Repeat">🔁</button>
+  </div>
+  <div class="np-extra">
+    <button id="npFav" class="btn ghost">❤ Favorite</button>
+    <button id="npAdd" class="btn ghost">＋ Add to Playlist</button>
+  </div>
+</div>
+
+<!-- Playlist dialog -->
+<dialog id="playlistDialog" class="dialog">
+  <form method="dialog" id="playlistForm">
+    <h3>Add to playlist</h3>
+    <div id="playlistList" class="playlist-list"></div>
+    <div class="newpl">
+      <input id="newPlaylistName" type="text" placeholder="New playlist name" />
+      <button type="button" id="createPlaylistBtn" class="btn">Create</button>
+    </div>
+    <menu>
+      <button class="btn ghost" value="cancel">Close</button>
+    </menu>
+  </form>
+</dialog>
+
+<!-- Hidden file inputs (fallback when File System Access API unavailable) -->
+<input id="filePicker" type="file" accept="audio/*" multiple webkitdirectory directory hidden />
+<input id="filePickerSingle" type="file" accept="audio/*" multiple hidden />
+
+<!-- Hidden audio element -->
+<audio id="audio" preload="auto" playsinline webkit-playsinline></audio>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
